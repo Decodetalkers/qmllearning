@@ -5,8 +5,8 @@ name: block
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
-  #push:
-  #  branches: [ "master" ]
+  push:
+    branches: [ "book" ]
   pull_request:
     branches: [ "master" ]
 
@@ -27,10 +27,19 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: install mdbook
-        run: sudo apt install -y mdbook
+        run: |
+          curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh 
+          rustup update
+          cargo install mdbook 
+          mdbook --version
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      - name: push static html
+        run: mdbook build
+      - name: Deploy
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: git@github.com:owner/repo.git
+          BRANCH: gh-pages
+          FOLDER: book
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
