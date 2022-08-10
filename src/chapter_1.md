@@ -23,7 +23,7 @@ properity and required defined the properity when realized at first
 import QtQuick 2.0
 
 Rectangle {
-    // declaration without initialization
+  // declaration without initialization
   property list<Rectangle> siblingRects
 
   // declaration with initialization
