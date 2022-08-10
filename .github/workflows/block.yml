@@ -6,7 +6,7 @@ name: block
 on:
   # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches: [ "book" ]
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
@@ -23,23 +23,23 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
+
+      # Build markdown files to a static site.
+      - name: Setup mdbook
+        uses: peaceiris/actions-mdbook@v1
+        with:
+          mdbook-version: "latest"
+      - run: mdbook build . --dest-dir ./book # --dest-dir is relative to <dir>
+
+      # Publish the static site to gh-pages branch.
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN}}
+          publish_dir: ./book
+          publish_branch: book
+
 
       # Runs a single command using the runners shell
-      - name: install mdbook
-        run: |
-          curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh 
-          rustup update
-          cargo install mdbook 
-          mdbook --version
 
-      # Runs a set of commands using the runners shell
-      - name: push static html
-        run: mdbook build
-      - name: Deploy
-        uses: s0/git-publish-subdir-action@develop
-        env:
-          REPO: git@github.com:owner/repo.git
-          BRANCH: gh-pages
-          FOLDER: book
-          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
