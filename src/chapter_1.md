@@ -24,21 +24,21 @@ import QtQuick 2.0
 
 Rectangle {
     // declaration without initialization
-    property list<Rectangle> siblingRects
+  property list<Rectangle> siblingRects
 
-    // declaration with initialization
-    property list<Rectangle> childRects: [
-        Rectangle { color: "red" },
-        Rectangle { color: "blue"}
-    ]
+  // declaration with initialization
+  property list<Rectangle> childRects: [
+    Rectangle { color: "red" },
+    Rectangle { color: "blue"}
+  ]
 }
 ```
 
 ```qmljs 
 Application {
-	Rectangle {
-		siblingRects : []
-	}
+  Rectangle {
+    siblingRects : []
+  }
 }
 ```
 
@@ -51,26 +51,26 @@ Signals in qml is the same as the same things in cpp. Just use the example on qt
 ```qmljs 
 // SquareButton.qml
 Rectangle {
-    id: root
+  id: root
 
-    signal activated(xPosition: real, yPosition: real)
-    signal deactivated
+  signal activated(xPosition: real, yPosition: real)
+  signal deactivated
 
-    property int side: 100
-    width: side; height: side
+  property int side: 100
+  width: side; height: side
 
-    MouseArea {
-        anchors.fill: parent
-        onReleased: root.deactivated()
-        onPressed: (mouse)=> root.activated(mouse.x, mouse.y)
-    }
+  MouseArea {
+    anchors.fill: parent
+    onReleased: root.deactivated()
+    onPressed: (mouse)=> root.activated(mouse.x, mouse.y)
+  }
 }
 ```
 
 ```qmljs 
 // myapplication.qml
 SquareButton {
-    onDeactivated: console.log("Deactivated!")
-    onActivated: (xPosition, yPosition)=> console.log("Activated at " + xPosition + "," + yPosition)
+  onDeactivated: console.log("Deactivated!")
+  onActivated: (xPosition, yPosition)=> console.log("Activated at " + xPosition + "," + yPosition)
 }
 ```
