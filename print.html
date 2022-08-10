@@ -150,19 +150,19 @@ import QtQuick 2.0
 
 Rectangle {
     // declaration without initialization
-    property list&lt;Rectangle&gt; siblingRects
+  property list&lt;Rectangle&gt; siblingRects
 
-    // declaration with initialization
-    property list&lt;Rectangle&gt; childRects: [
-        Rectangle { color: &quot;red&quot; },
-        Rectangle { color: &quot;blue&quot;}
-    ]
+  // declaration with initialization
+  property list&lt;Rectangle&gt; childRects: [
+    Rectangle { color: &quot;red&quot; },
+    Rectangle { color: &quot;blue&quot;}
+  ]
 }
 </code></pre>
 <pre><code class="language-qmljs">Application {
-	Rectangle {
-		siblingRects : []
-	}
+  Rectangle {
+    siblingRects : []
+  }
 }
 </code></pre>
 <p>If used required, such properity is must be defined.</p>
@@ -191,7 +191,31 @@ SquareButton {
     onActivated: (xPosition, yPosition)=&gt; console.log(&quot;Activated at &quot; + xPosition + &quot;,&quot; + yPosition)
 }
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="animation"><a class="header" href="#animation">Animation</a></h1>
+<p>Qt 的动画这里我将qml和qtwidget的动画方式进行介绍，同时会介绍statemachine的状态管理机器。</p>
+<p>在介绍这些事情之前，需要介绍qt的属性porperty,在cpp中以类似放好似呈现</p>
+<pre><code class="language-cpp">Q_PROPERTY(qreal positiony WRITE setPositionY READ positiony NOTIFY updatepositon)
+</code></pre>
+<p>这行定义了传入的类型，写的函数，读的函数，以及内容更新后的signal。如果是cpp到qml,qml需要知道你消息更新了然后更新qml中数据，所以当需要数据更新时候，emitChanged是不可少的,这个会将消息更新，然后在ui上更新</p>
+<p>qt这个设计让cpp的object更加类似json,或者说qt 梦想的cpp就是javascript的样子。这时候使用setProxy 就可以设置object的属性了。</p>
+<h2 id="state"><a class="header" href="#state">State</a></h2>
+<p>状态机。qt中使用状态机保存和管理控件状态。statemechine可以用来实现复杂的动画和状态变化。其中有两个重要的参数</p>
+<pre><code class="language-cpp">QSignaltransition *transition;
+QPropertyAnimation *transition;
+</code></pre>
+<p>QSignaltransition 是连接两个target的变化。其中有两个重要函数</p>
+<pre><code class="language-cpp">transition-&gt;setTargetState(m_target_state); // target state 
+m_start_transition-&gt;addTransition(transition); // transition 
+</code></pre>
+<p>上述代码描述了从m_target_state 到m_target_state的变化。定义了出发的signal。</p>
+<pre><code class="language-cpp">animation = new QPropertyAnimation(m_mime, &quot;positionx&quot;, this);
+animation-&gt;setDuration(420);
+animation-&gt;setEasingCurve(QEasingCurve::OutCurve);
+transition-&gt;addTransition(animation);
+</code></pre>
+<p>上述代码定义了变化的动画，定义了变化的属性，时长，变化方式，最后将动画加到transition中。</p>
+<p>使用Statechine时候需要先定义初始状态，然后start，就可以管理状态了，详情可以看qt的state 例子</p>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

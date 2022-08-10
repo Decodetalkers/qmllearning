@@ -149,19 +149,19 @@ import QtQuick 2.0
 
 Rectangle {
     // declaration without initialization
-    property list&lt;Rectangle&gt; siblingRects
+  property list&lt;Rectangle&gt; siblingRects
 
-    // declaration with initialization
-    property list&lt;Rectangle&gt; childRects: [
-        Rectangle { color: &quot;red&quot; },
-        Rectangle { color: &quot;blue&quot;}
-    ]
+  // declaration with initialization
+  property list&lt;Rectangle&gt; childRects: [
+    Rectangle { color: &quot;red&quot; },
+    Rectangle { color: &quot;blue&quot;}
+  ]
 }
 </code></pre>
 <pre><code class="language-qmljs">Application {
-	Rectangle {
-		siblingRects : []
-	}
+  Rectangle {
+    siblingRects : []
+  }
 }
 </code></pre>
 <p>If used required, such properity is must be defined.</p>
