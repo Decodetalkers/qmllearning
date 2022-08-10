@@ -151,13 +151,15 @@ QPropertyAnimation *transition;
 m_start_transition-&gt;addTransition(transition); // transition 
 </code></pre>
 <p>上述代码描述了从m_target_state 到m_target_state的变化。定义了出发的signal。</p>
-<pre><code class="language-cpp">animation = new QPropertyAnimation(m_mime, &quot;positionx&quot;, this);
+<pre><code class="language-cpp  editable">animation = new QPropertyAnimation(m_mime, &quot;positionx&quot;, this);
 animation-&gt;setDuration(420);
 animation-&gt;setEasingCurve(QEasingCurve::OutCurve);
 transition-&gt;addTransition(animation);
 </code></pre>
 <p>上述代码定义了变化的动画，定义了变化的属性，时长，变化方式，最后将动画加到transition中。</p>
 <p>使用Statechine时候需要先定义初始状态，然后start，就可以管理状态了，详情可以看qt的state 例子</p>
+<h2 id="qml"><a class="header" href="#qml">qml</a></h2>
+<p>qml 中同样有state等行为</p>
 
                     </main>
 

@@ -170,25 +170,25 @@ Rectangle {
 <p>Signals in qml is the same as the same things in cpp. Just use the example on qt </p>
 <pre><code class="language-qmljs">// SquareButton.qml
 Rectangle {
-    id: root
+  id: root
 
-    signal activated(xPosition: real, yPosition: real)
-    signal deactivated
+  signal activated(xPosition: real, yPosition: real)
+  signal deactivated
 
-    property int side: 100
-    width: side; height: side
+  property int side: 100
+  width: side; height: side
 
-    MouseArea {
-        anchors.fill: parent
-        onReleased: root.deactivated()
-        onPressed: (mouse)=&gt; root.activated(mouse.x, mouse.y)
-    }
+  MouseArea {
+    anchors.fill: parent
+    onReleased: root.deactivated()
+    onPressed: (mouse)=&gt; root.activated(mouse.x, mouse.y)
+  }
 }
 </code></pre>
 <pre><code class="language-qmljs">// myapplication.qml
 SquareButton {
-    onDeactivated: console.log(&quot;Deactivated!&quot;)
-    onActivated: (xPosition, yPosition)=&gt; console.log(&quot;Activated at &quot; + xPosition + &quot;,&quot; + yPosition)
+  onDeactivated: console.log(&quot;Deactivated!&quot;)
+  onActivated: (xPosition, yPosition)=&gt; console.log(&quot;Activated at &quot; + xPosition + &quot;,&quot; + yPosition)
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="animation"><a class="header" href="#animation">Animation</a></h1>
@@ -208,13 +208,15 @@ QPropertyAnimation *transition;
 m_start_transition-&gt;addTransition(transition); // transition 
 </code></pre>
 <p>上述代码描述了从m_target_state 到m_target_state的变化。定义了出发的signal。</p>
-<pre><code class="language-cpp">animation = new QPropertyAnimation(m_mime, &quot;positionx&quot;, this);
+<pre><code class="language-cpp  editable">animation = new QPropertyAnimation(m_mime, &quot;positionx&quot;, this);
 animation-&gt;setDuration(420);
 animation-&gt;setEasingCurve(QEasingCurve::OutCurve);
 transition-&gt;addTransition(animation);
 </code></pre>
 <p>上述代码定义了变化的动画，定义了变化的属性，时长，变化方式，最后将动画加到transition中。</p>
 <p>使用Statechine时候需要先定义初始状态，然后start，就可以管理状态了，详情可以看qt的state 例子</p>
+<h2 id="qml"><a class="header" href="#qml">qml</a></h2>
+<p>qml 中同样有state等行为</p>
 
                     </main>
 

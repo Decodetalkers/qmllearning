@@ -169,25 +169,25 @@ Rectangle {
 <p>Signals in qml is the same as the same things in cpp. Just use the example on qt </p>
 <pre><code class="language-qmljs">// SquareButton.qml
 Rectangle {
-    id: root
+  id: root
 
-    signal activated(xPosition: real, yPosition: real)
-    signal deactivated
+  signal activated(xPosition: real, yPosition: real)
+  signal deactivated
 
-    property int side: 100
-    width: side; height: side
+  property int side: 100
+  width: side; height: side
 
-    MouseArea {
-        anchors.fill: parent
-        onReleased: root.deactivated()
-        onPressed: (mouse)=&gt; root.activated(mouse.x, mouse.y)
-    }
+  MouseArea {
+    anchors.fill: parent
+    onReleased: root.deactivated()
+    onPressed: (mouse)=&gt; root.activated(mouse.x, mouse.y)
+  }
 }
 </code></pre>
 <pre><code class="language-qmljs">// myapplication.qml
 SquareButton {
-    onDeactivated: console.log(&quot;Deactivated!&quot;)
-    onActivated: (xPosition, yPosition)=&gt; console.log(&quot;Activated at &quot; + xPosition + &quot;,&quot; + yPosition)
+  onDeactivated: console.log(&quot;Deactivated!&quot;)
+  onActivated: (xPosition, yPosition)=&gt; console.log(&quot;Activated at &quot; + xPosition + &quot;,&quot; + yPosition)
 }
 </code></pre>
 
