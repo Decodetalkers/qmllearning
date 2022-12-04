@@ -74,3 +74,19 @@ SquareButton {
   onActivated: (xPosition, yPosition)=> console.log("Activated at " + xPosition + "," + yPosition)
 }
 ```
+
+### Custom Component
+
+```qmljs
+// Obj.qml
+Rectangle {
+  width: 50
+  height: 50
+  default property alias content: row.children
+  Row {
+    id: row
+  }
+}
+```
+This will redirect content to the children of row
+
