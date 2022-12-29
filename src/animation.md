@@ -23,7 +23,7 @@ QPropertyAnimation *transition;
 
 QSignaltransition 是连接两个target的变化。其中有两个重要函数
 
-```cpp 
+```cpp
 transition->setTargetState(m_target_state); // target state 
 m_start_transition->addTransition(transition); // transition 
 ```
