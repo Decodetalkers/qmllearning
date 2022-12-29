@@ -3,8 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>qmlbook</title>
-        <meta name="robots" content="noindex" />
+        <title>Huruhi - qmlbook</title>
 
 
         <!-- Custom HTML head -->
@@ -81,7 +80,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Chapter 1</a></li><li class="chapter-item expanded affix "><li class="part-title">About Qt</li><li class="chapter-item expanded "><a href="animation.html"><strong aria-hidden="true">2.</strong> Animation</a></li><li class="chapter-item expanded affix "><li class="part-title">Animate</li><li class="chapter-item expanded "><a href="Haruhi.html"><strong aria-hidden="true">3.</strong> Huruhi</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Chapter 1</a></li><li class="chapter-item expanded affix "><li class="part-title">About Qt</li><li class="chapter-item expanded "><a href="animation.html"><strong aria-hidden="true">2.</strong> Animation</a></li><li class="chapter-item expanded affix "><li class="part-title">Animate</li><li class="chapter-item expanded "><a href="Haruhi.html" class="active"><strong aria-hidden="true">3.</strong> Huruhi</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -142,101 +141,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="about-qml"><a class="header" href="#about-qml">About qml</a></h1>
-<p>QMl is a dsl for qt, it is like javascript, but a little noot like.</p>
-<p>I wanner use qml to make a application like clash for windows.</p>
-<p>What I need to learn is how to draw the view and animation.</p>
-<h2 id="attributes"><a class="header" href="#attributes">Attributes</a></h2>
-<p>You can view the intruction from qt with this url </p>
-<p><a href="https://doc.qt.io/qt-6/qtqml-syntax-objectattributes.html">Attributes</a></p>
-<p>There are such keywords: required, properity and signals.</p>
-<h3 id="properity-and-required"><a class="header" href="#properity-and-required">properity and required</a></h3>
-<p>properity and required defined the properity when realized at first</p>
-<pre><code class="language-qmljs">// MyItem.qml
-import QtQuick 2.0
-
-Rectangle {
-  // declaration without initialization
-  property list&lt;Rectangle&gt; siblingRects
-
-  // declaration with initialization
-  property list&lt;Rectangle&gt; childRects: [
-    Rectangle { color: &quot;red&quot; },
-    Rectangle { color: &quot;blue&quot;}
-  ]
-}
-</code></pre>
-<pre><code class="language-qmljs">Application {
-  Rectangle {
-    siblingRects : []
-  }
-}
-</code></pre>
-<p>If used required, such properity is must be defined.</p>
-<h3 id="signals-and-slots"><a class="header" href="#signals-and-slots">signals and slots</a></h3>
-<p>Signals in qml is the same as the same things in cpp. Just use the example on qt </p>
-<pre><code class="language-qmljs">// SquareButton.qml
-Rectangle {
-  id: root
-
-  signal activated(xPosition: real, yPosition: real)
-  signal deactivated
-
-  property int side: 100
-  width: side; height: side
-
-  MouseArea {
-    anchors.fill: parent
-    onReleased: root.deactivated()
-    onPressed: (mouse)=&gt; root.activated(mouse.x, mouse.y)
-  }
-}
-</code></pre>
-<pre><code class="language-qmljs">// myapplication.qml
-SquareButton {
-  onDeactivated: console.log(&quot;Deactivated!&quot;)
-  onActivated: (xPosition, yPosition)=&gt; console.log(&quot;Activated at &quot; + xPosition + &quot;,&quot; + yPosition)
-}
-</code></pre>
-<h3 id="custom-component"><a class="header" href="#custom-component">Custom Component</a></h3>
-<pre><code class="language-qmljs">// Obj.qml
-Rectangle {
-  width: 50
-  height: 50
-  default property alias content: row.children
-  Row {
-    id: row
-  }
-}
-</code></pre>
-<p>This will redirect content to the children of row</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="animation"><a class="header" href="#animation">Animation</a></h1>
-<p>Qt 的动画这里我将qml和qtwidget的动画方式进行介绍，同时会介绍statemachine的状态管理机器。</p>
-<p>在介绍这些事情之前，需要介绍qt的属性porperty,在cpp中以类似放好似呈现</p>
-<pre><code class="language-cpp">Q_PROPERTY(qreal positiony WRITE setPositionY READ positiony NOTIFY updatepositon)
-</code></pre>
-<p>这行定义了传入的类型，写的函数，读的函数，以及内容更新后的signal。如果是cpp到qml,qml需要知道你消息更新了然后更新qml中数据，所以当需要数据更新时候，emitChanged是不可少的,这个会将消息更新，然后在ui上更新</p>
-<p>qt这个设计让cpp的object更加类似json,或者说qt 梦想的cpp就是javascript的样子。这时候使用setProxy 就可以设置object的属性了。</p>
-<h2 id="state"><a class="header" href="#state">State</a></h2>
-<p>状态机。qt中使用状态机保存和管理控件状态。statemechine可以用来实现复杂的动画和状态变化。其中有两个重要的参数</p>
-<pre><code class="language-cpp">QSignaltransition *transition;
-QPropertyAnimation *transition;
-</code></pre>
-<p>QSignaltransition 是连接两个target的变化。其中有两个重要函数</p>
-<pre><code class="language-cpp">transition-&gt;setTargetState(m_target_state); // target state 
-m_start_transition-&gt;addTransition(transition); // transition 
-</code></pre>
-<p>上述代码描述了从m_target_state 到m_target_state的变化。定义了出发的signal。</p>
-<pre><code class="language-cpp  editable">animation = new QPropertyAnimation(m_mime, &quot;positionx&quot;, this);
-animation-&gt;setDuration(420);
-animation-&gt;setEasingCurve(QEasingCurve::OutCurve);
-transition-&gt;addTransition(animation);
-</code></pre>
-<p>上述代码定义了变化的动画，定义了变化的属性，时长，变化方式，最后将动画加到transition中。</p>
-<p>使用Statechine时候需要先定义初始状态，然后start，就可以管理状态了，详情可以看qt的state 例子</p>
-<h2 id="qml"><a class="header" href="#qml">qml</a></h2>
-<p>qml 中同样有state等行为</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="涼宮春日"><a class="header" href="#涼宮春日">涼宮春日</a></h1>
+                        <h1 id="涼宮春日"><a class="header" href="#涼宮春日">涼宮春日</a></h1>
 <p>理論上這是技術博客，不應該寫和動畫有關的，但是我遇到了心情的鬱悶和無法進一步進行的阻礙，所以寫一些奇怪的內容。</p>
 <p>涼宮春日是一個理所當然的現代文學。</p>
 <p>現代文學主要的內容是描述人們在生活中遇到的精神危機。但是現代文學和古典的文學甚至是浪漫主義文學最重要的區別在於，現代主義文學注重的是感覺，描述一種感覺。如果是古典文學要描述一個人處於鬱悶之中，作者會花時間描述這個人的精神狀態，讓讀者瞭解到這個主人公是處於憂鬱之中。</p>
@@ -254,6 +159,9 @@ transition-&gt;addTransition(animation);
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="animation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
 
                         <div style="clear: both"></div>
@@ -262,6 +170,9 @@ transition-&gt;addTransition(animation);
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="animation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
             </nav>
 
@@ -285,11 +196,6 @@ transition-&gt;addTransition(animation);
 
         <!-- Custom JS scripts -->
 
-        <script>
-        window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
-        });
-        </script>
 
     </body>
 </html>
